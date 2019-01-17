@@ -1,0 +1,55 @@
+{
+  "name": "mmf-blog-api-v2",
+  "version": "2.0.0",
+  "description": "mmf blog api server",
+  "author": "lincenying &lt;lincenying@qq.com&gt;",
+  "license": "MIT",
+  "scripts": {
+    "server": "nodemon ./bin/www",
+    "lint": "eslint --ext .js server/ --fix",
+    "precommit": "lint-staged"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "highlight.js": "^9.13.1",
+    "jsonwebtoken": "^8.3.0",
+    "marked": "^0.5.1",
+    "md5": "^2.2.1",
+    "moment": "^2.22.2",
+    "mongoose": "^5.3.6"
+  },
+  "devDependencies": {
+    "bluebird": "^3.5.2",
+    "body-parser": "^1.18.3",
+    "compression": "^1.7.3",
+    "connect-multiparty": "^2.2.0",
+    "cookie-parser": "^1.3.5",
+    "debug": "^4.1.0",
+    "ejs": "^2.6.1",
+    "eslint-config-lcy-vue": "^3.0.3",
+    "express": "^4.16.4",
+    "function-bind": "^1.1.1",
+    "husky": "^1.1.2",
+    "lint-staged": "^7.3.0",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.18.4",
+    "ora": "^3.0.0",
+    "serve-favicon": "^2.5.0"
+  },
+  "engines": {
+    "node": ">= 8.0.0",
+    "npm": ">= 5.0.0"
+  },
+  "browserslist": [
+    "> 0.1%",
+    "last 3 versions",
+    "not ie <= 8",
+    "iOS > 8"
+  ],
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  }
+}
