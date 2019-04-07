@@ -17,7 +17,7 @@ exports.list = (req, res, mongoDB, sort = '-_id') => {
     const skip = (page - 1) * limit
     Promise.all([
         mongoDB
-            .find()
+            .find({is_delete:0})
             .sort(sort)
             .skip(skip)
             .limit(limit)
@@ -87,13 +87,14 @@ exports.item = (req, res, mongoDB) => {
  * @return {[type]}           [description]
  */
 exports.deletes = (req, res, mongoDB) => {
-    const _id = req.query.id
+    const _id = req.body.id
+    console.log(_id)
     mongoDB
         .updateOneAsync({ _id }, { is_delete: 1 })
         .then(() => {
             res.json({
                 code: 200,
-                message: '更新成功',
+                message: '删除成功',
                 data: 'success'
             })
         })
@@ -115,8 +116,7 @@ exports.deletes = (req, res, mongoDB) => {
  * @return {[type]}         [description]
  */
 exports.modify = (res, mongoDB, _id, data) => {
-    mongoDB
-        .findOneAndUpdateAsync({ _id }, data, { new: true })
+    mongoDB.findOneAndUpdateAsync({ _id }, data, { new: true })
         .then(result => {
             res.json({
                 code: 200,

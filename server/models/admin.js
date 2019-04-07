@@ -6,6 +6,7 @@ const AdminSchema = new Schema({
     username: String,
     email: String,
     password: String,
+    icon: String,
     creat_date: String,
     update_date: String,
     is_delete: Number,

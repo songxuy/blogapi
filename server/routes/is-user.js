@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
             if (
                 !err &&
                 decoded.id === userid &&
-                (decoded.username === username || decoded.username === encodeURI(username))
+                (decoded.email === username || decoded.email === encodeURI(username))
             ) {
                 req.decoded = decoded
                 next()

@@ -12,6 +12,8 @@ require('./server/models/article')
 require('./server/models/category')
 require('./server/models/comment')
 require('./server/models/user')
+require('./server/models/dynamic')
+require('./server/models/adver')
 
 // 引入 api 路由
 var routes = require('./server/routes/index')
@@ -26,11 +28,10 @@ app.set('view engine', 'ejs')
 app.use(compression())
 app.use(favicon(path.join(__dirname, 'dist') + '/favicon.ico'))
 app.use(logger('dev'))
-app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'dist')))
-
+app.use(bodyParser.json({limit : "2100000kb"}));
 app.use('/api', routes)
 
 app.get('*', (req, res) => {

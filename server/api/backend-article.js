@@ -3,7 +3,7 @@ const mongoose = require('../mongoose')
 const Article = mongoose.model('Article')
 const Category = mongoose.model('Category')
 const general = require('./general')
-
+const User = mongoose.model('User')
 const list = general.list
 const item = general.item
 
@@ -89,14 +89,25 @@ exports.insert = (req, res) => {
  * @return {[type]}     [description]
  */
 exports.deletes = (req, res) => {
-    const _id = req.query.id
-    Article.updateOneAsync({ _id }, { is_delete: 1 })
-        .then(() => {
-            return Category.updateOneAsync({ _id }, { $inc: { cate_num: -1 } }).then(result => {
+    const _id = req.body.id
+    Article.findOneAndUpdateAsync({ _id }, { is_delete: 1 })
+        .then((result) => {
+            
+            /* return Category.updateOneAsync({ _id }, { $inc: { cate_num: -1 } }).then(result => {
                 res.json({
                     code: 200,
                     message: '更新成功',
                     data: result
+                })
+            }) */
+            Promise.all([
+                Category.updateOneAsync({ _id: result.category }, { $inc: { cate_num: -1 } }),
+                User.updateOneAsync({ _id: result.auther_id }, { $inc: { articalNum: -1 } })
+            ]).then(function () {
+                res.json({
+                    code: 200,
+                    message: '更新成功',
+                    data: ''
                 })
             })
         })
@@ -143,18 +154,24 @@ exports.recover = (req, res) => {
  * @return {[type]}     [description]
  */
 exports.modify = (req, res) => {
-    const { id, category, category_old, content } = req.body
+    const { _id, category_name, category, content, category_old, title, username, visit, like, comment_count, creat_date } = req.body
     const html = marked(content)
     const data = {
-        title: req.body.title,
-        category: req.body.category,
-        category_name: req.body.category_name,
+        category_name,
+        category,
+        username,
         content,
         html,
+        title,
+        visit,
+        like,
+        comment_count,
+        creat_date,
         update_date: moment().format('YYYY-MM-DD HH:mm:ss')
     }
-    Article.findOneAndUpdateAsync({ _id: id }, data, { new: true })
+    Article.findOneAndUpdateAsync({ _id: _id }, data, { new: true })
         .then(result => {
+            console.log(result)
             if (category !== category_old) {
                 Promise.all([
                     Category.updateOneAsync({ _id: category }, { $inc: { cate_num: 1 } }),

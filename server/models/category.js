@@ -5,7 +5,9 @@ const Promise = require('bluebird')
 const CategorySchema = new Schema({
     cate_name: String,
     cate_order: String,
-    cate_num: Number,
+    cate_num: { type: Number, default: 0},
+    cate_peo: { type: Number, default: 0},
+    icon: String,
     creat_date: String,
     update_date: String,
     is_delete: Number,
